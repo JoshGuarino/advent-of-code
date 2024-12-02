@@ -1,5 +1,5 @@
 ## Advent of code 2024
 
 ## Progress
-- Day 1 : in progress
-- Day 2 : not started
+- Day 1 : done
+- Day 2 : in progress 
