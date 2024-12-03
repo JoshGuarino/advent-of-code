@@ -18,7 +18,7 @@ def main():
         diff = num - right_list[index]
         total_dist += abs(diff) 
         
-        #part two
+        # part two
         occurrences = right_list.count(num)
         similar_score += num*occurrences
 
