@@ -7,39 +7,36 @@ def parse_data():
     return data
 
 def check_safety(report):
+    # flags for checking change is direction 
     increasing = False
     decreasing = False
-    for index, num in enumerate(report):
-        # if we make it to end its a good report
-        if num == report[-1]:
-            return True
 
-        # get the difference bewtween current and next num
-        diff = num - report[index+1]
+    # loop through until second to last iteration
+    for index in range(len(report)-1):
+        # calculate difference between current and next num
+        diff = report[index] - report[index+1]
 
-        # check for out of bounds diffrence
-        if diff == 0 or diff > 3 or diff < -3:
+        # out of bounds check
+        if diff == 0 or abs(diff) > 3:
             return False
 
-        # set flags for decreasing or increasing
+        # set if current iteration is increasing or decreasing
         if diff > 0:
             increasing = True
         elif diff < 0:
             decreasing = True
-        else:
-            return False
-       
-        # both being true idicates a change in dirtection
+
+        # if both flags are true it indicates a change in direction
         if decreasing and increasing:
             return False
-        
 
-
+    # if we make it through all iterations its safe
+    return True
 
 def main():
     data = parse_data()   
     safe_reports = 0
-    for index, report in enumerate(data):
+    for report in data:
         if check_safety(report):
             safe_reports += 1
     print(safe_reports)
