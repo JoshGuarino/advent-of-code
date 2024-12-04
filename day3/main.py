@@ -36,15 +36,10 @@ def calculate_sum_conditions(memory):
 def main():
     with open("input.txt", "r") as file:
         memory = file.read()
-
-    # part one
     total_p1 = calculate_sum(memory)
-    print(total_p1)
-
-    # part two
     total_p2 = calculate_sum_conditions(memory)
+    print(total_p1)
     print(total_p2)
-    
 
 if __name__ == "__main__":
     main()
