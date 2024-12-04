@@ -3,4 +3,5 @@
 ## Progress
 - Day 1 : done
 - Day 2 : done 
-- Day 3 : in progress
+- Day 3 : done 
+- Day 4 : part 1 done
