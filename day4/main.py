@@ -7,6 +7,7 @@ def parse_data():
     return grid
 
 def check_word_xmas(grid, y_coord, x_coord, direction):
+    XMAS = "XMAS"
     for index in range(4):
         # define boundary checks 
         EXCEEDS_RIGHT_BOUND = x_coord + index < 0
@@ -46,7 +47,7 @@ def check_word_xmas(grid, y_coord, x_coord, direction):
             return False
 
         # check char is correct place
-        if not char == "XMAS"[index]:
+        if not char == XMAS[index]:
             return False
 
     # if all conditions met word should spell xmas
@@ -55,28 +56,44 @@ def check_word_xmas(grid, y_coord, x_coord, direction):
 
 
 def check_cross_mas(grid, y_coord, x_coord):
-    # Ensure bounds for a 3x3 region centered at (y, x)
-    top_row_in_bounds = y_coord - 1 >= 0
-    bottom_row_in_bounds = y_coord + 1 < len(grid)
-    left_column_in_bounds = x_coord - 1 >= 0
-    right_column_in_bounds = x_coord + 1 < len(grid[0])
-    conditions = [top_row_in_bounds, bottom_row_in_bounds, left_column_in_bounds, right_column_in_bounds]
-    # if top_row_in_bounds and bottom_row_in_bounds and left_column_in_bounds and right_column_in_bounds:
-    if all(conditions):
+    # define the "MAS" pattern
+    MAS = ["M", "A", "S"]
+    MAS_REV = ["S", "A", "M"]
+
+    # ensure bounds for a 3x3 region centered at (y, x)
+    TOP_ROW_BOUND = y_coord - 1 >= 0
+    BOT_ROW_BOUND = y_coord + 1 < len(grid)
+    LEFT_COL_BOUND = x_coord - 1 >= 0
+    RIGHT_COL_BOUND = x_coord + 1 < len(grid[0])
+    if not all([TOP_ROW_BOUND, BOT_ROW_BOUND, LEFT_COL_BOUND, RIGHT_COL_BOUND]):
         return False
 
-    return True
+    # Extract diagonals
+    down_right = [
+        grid[y_coord - 1][x_coord - 1],
+        grid[y_coord][x_coord],
+        grid[y_coord + 1][x_coord + 1]
+    ]
+    up_right = [
+        grid[y_coord + 1][x_coord - 1],
+        grid[y_coord][x_coord],
+        grid[y_coord - 1][x_coord + 1]
+    ]
 
+    # Check if either diagonal matches "MAS" or its reverse
+    diagonal_1_matches = down_right == MAS or down_right == MAS_REV 
+    diagonal_2_matches = up_right == MAS or up_right == MAS_REV 
+    return diagonal_1_matches and diagonal_2_matches
  
 def traverse_grid(grid):
     total_p1 = 0
     total_p2 = 0
-    directions = ["right", "left", "down", "up", "down right", "down left", "up right", "up left"]
+    DIRECTIONS = ["right", "left", "down", "up", "down right", "down left", "up right", "up left"]
     for y_coord, row in enumerate(grid):
         for x_coord, char in enumerate(row):
             # part one    
             if char == "X":
-                for direction in directions:
+                for direction in DIRECTIONS:
                     total_p1 += 1 if check_word_xmas(grid, y_coord, x_coord, direction) else 0
 
             # part two
