@@ -6,55 +6,66 @@ def parse_data():
             grid.append(row)
     return grid
 
-def check_char(char, index):
-    return char == "XMAS"[index]
-
 def check_word_xmas(grid, y_coord, x_coord, direction):
     for index in range(4):
-        # check boundaries and set char to check
+        # define boundary checks 
+        EXCEEDS_RIGHT_BOUND = x_coord + index < 0
+        EXCEEDS_LEFT_BOUND = x_coord - index < 0 
+        EXCEEDS_DOWN_BOUND = y_coord + index < 0
+        EXCEEDS_UP_BOUND = y_coord - index < 0
+
+        # check boundaries and set char if possible        
         try:
             char = ""
             match direction:
                 case "right":
-                    if direction == "right" and x_coord + index < 0: return False 
+                    if EXCEEDS_RIGHT_BOUND: return False 
                     char = grid[y_coord][x_coord+index]
                 case "left":
-                    if direction == "left" and x_coord - index < 0: return False
+                    if EXCEEDS_LEFT_BOUND: return False
                     char = grid[y_coord][x_coord-index]
                 case "down":
-                    if direction == "left" and x_coord + index < 0: return False
+                    if EXCEEDS_DOWN_BOUND: return False
                     char = grid[y_coord+index][x_coord]
                 case "up":
-                    if direction == "up" and y_coord - index < 0: return False
+                    if EXCEEDS_UP_BOUND: return False
                     char = grid[y_coord-index][x_coord]
                 case "down right":
-                    if direction == "down right" and (y_coord + index < 0) or (x_coord + index < 0):
-                        return False
+                    if EXCEEDS_DOWN_BOUND or EXCEEDS_RIGHT_BOUND: return False
                     char = grid[y_coord+index][x_coord+index]
                 case "down left":
-                    if direction == "down left" and ((y_coord + index) < 0 or (x_coord - index < 0)):
-                        return False
+                    if EXCEEDS_DOWN_BOUND or EXCEEDS_LEFT_BOUND: return False  
                     char = grid[y_coord+index][x_coord-index]
                 case "up right":
-                    if direction == "up right" and ((y_coord - index) < 0 or (x_coord + index < 0)):
-                        return False
+                    if EXCEEDS_UP_BOUND or EXCEEDS_RIGHT_BOUND: return False
                     char = grid[y_coord-index][x_coord+index]
                 case "up left":
-                    if direction == "up left" and ((y_coord - index) < 0 or (x_coord - index < 0)):
-                        return False
+                    if EXCEEDS_UP_BOUND or EXCEEDS_LEFT_BOUND: return False
                     char = grid[y_coord-index][x_coord-index]
         except:
             return False
 
         # check char is correct place
-        if not check_char(char, index):
+        if not char == "XMAS"[index]:
             return False
 
-    # if all conditions met should spell xmas
+    # if all conditions met word should spell xmas
     return True
 
+
+
 def check_cross_mas(grid, y_coord, x_coord):
-    return False
+    # Ensure bounds for a 3x3 region centered at (y, x)
+    top_row_in_bounds = y_coord - 1 >= 0
+    bottom_row_in_bounds = y_coord + 1 < len(grid)
+    left_column_in_bounds = x_coord - 1 >= 0
+    right_column_in_bounds = x_coord + 1 < len(grid[0])
+    conditions = [top_row_in_bounds, bottom_row_in_bounds, left_column_in_bounds, right_column_in_bounds]
+    # if top_row_in_bounds and bottom_row_in_bounds and left_column_in_bounds and right_column_in_bounds:
+    if all(conditions):
+        return False
+
+    return True
 
  
 def traverse_grid(grid):
