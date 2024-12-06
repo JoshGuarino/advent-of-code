@@ -13,8 +13,8 @@ def parse_input():
     return grid, guard_pos, guard_dir 
 
 def sim_guard_path(grid, guard_pos, guard_dir):
-    dirs = ['^', '>', 'v', '<']
-    dir_deltas = {'^': (-1, 0), '>': (0, 1), 'v': (1, 0), '<': (0, -1)}
+    dirs = ["^", ">", "v", "<"]
+    dir_deltas = {"^": (-1, 0), ">": (0, 1), "v": (1, 0), "<": (0, -1)}
     visited_pos = set()
     visited_pos.add(guard_pos)
     rows = len(grid)
@@ -30,7 +30,7 @@ def sim_guard_path(grid, guard_pos, guard_dir):
             break
 
         # Check if the next position is an obstacle
-        if grid[next_pos[0]][next_pos[1]] == '#':
+        if grid[next_pos[0]][next_pos[1]] == "#":
             # Turn right (cycle to the next direction)
             guard_dir = dirs[(dirs.index(guard_dir) + 1) % 4]
             continue
