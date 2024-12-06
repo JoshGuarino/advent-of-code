@@ -22,8 +22,8 @@ def sim_guard_path(grid, guard_pos, guard_dir):
 
     while True:
         # Calculate the position directly in front of the guard
-        dr, dc = dir_deltas[guard_dir]
-        next_pos = (guard_pos[0] + dr, guard_pos[1] + dc)
+        row, col = dir_deltas[guard_dir]
+        next_pos = (guard_pos[0] + row, guard_pos[1] + col)
         
         # Check if the next position is within bounds
         if not (0 <= next_pos[0] < rows and 0 <= next_pos[1] < cols):
