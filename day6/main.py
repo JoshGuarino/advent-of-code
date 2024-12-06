@@ -33,10 +33,11 @@ def sim_guard_path(grid, guard_pos, guard_dir):
         if grid[next_pos[0]][next_pos[1]] == '#':
             # Turn right (cycle to the next direction)
             guard_dir = dirs[(dirs.index(guard_dir) + 1) % 4]
-        else:
-            # Move forward
-            guard_pos = next_pos
-            visited_pos.add(guard_pos)
+            continue
+        
+        # Move forward
+        guard_pos = next_pos
+        visited_pos.add(guard_pos)
     
     return len(visited_pos)
 
