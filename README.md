@@ -7,4 +7,4 @@
 - Day 4 : both parts done
 - Day 5 : part 1 done 
 - Day 6 : part 1 done 
-- Day 7 : in progress
+- Day 7 : part 1 done

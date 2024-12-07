@@ -1,3 +1,5 @@
+import itertools
+
 def parse_input():
     equations = dict()
     with open("input.txt", "r") as file:
@@ -8,18 +10,30 @@ def parse_input():
             equations[test_value] = [int(num) for num in nums] 
     return equations
 
-def evaluate_expression():
-    pass
+def evaluate_expression(test_value, nums):
+    operator_positions = len(nums) - 1
+    for operators in itertools.product("+*", repeat=operator_positions):
+        result = nums[0]
+        for index, op in enumerate (operators):
+            if op == "+":
+                result += nums[index + 1]
+            elif op == "*":
+                result *= nums[index + 1]
+        if result == test_value:
+            return True
+    return False
 
-def find_total_calibaration(equations):
-    total_calibaration = 0
+def find_total_calibration(equations):
+    total_calibration = 0
     for test_value, nums in equations.items():
-        for num in nums:
-            pass
+        if evaluate_expression(test_value, nums):
+            total_calibration += test_value
+    return total_calibration
 
 def main():
     equations = parse_input()
-    find_total_calibaration(equations)
+    total_calibration = find_total_calibration(equations)
+    print(total_calibration)
 
 if __name__ == "__main__":
     main()
