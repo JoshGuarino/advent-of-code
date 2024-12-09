@@ -7,7 +7,7 @@ def parse_input():
             row = list(col) 
             grid.append(row)
             for col_index, pos in enumerate(row):
-                if pos == "^" or pos == ">" or pos == "v" or pos == "<":
+                if pos in "^>v<":
                     guard_pos = (row_index, col_index)
                     guard_dir = pos
     return grid, guard_pos, guard_dir 

@@ -19,6 +19,10 @@ def parse_data():
 
     return rules, updates
 
+# i think this is what is needed to solve part2
+def topological_sort():
+    return
+
 def is_correctly_ordered(update, rules):
     # Check if the update is in the correct order according to the rules
     page_position = {page: i for i, page in enumerate(update)}
