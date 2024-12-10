@@ -19,24 +19,25 @@ def decompresss_disk_map(disk_map: str) -> list[str]:
 
     return decomp_disk_map
 
-def find_last_used_block_index(disk_map: list[str], stop_index) -> int | None:
-        for index, blocks in reversed(list(enumerate(disk_map))):
-            if index == stop_index:
-                return
-            if blocks == ".":
-                continue
+def find_last_used_block_index(disk_map: list[str]) -> int:
+    for index in range(len(disk_map) - 1, -1, -1):
+        if disk_map[index] != ".":
             return index
+    return -1
 
 def compact_disk_map(decomp_disk_map: list[str]) -> list[str]:
     disk_map = decomp_disk_map
+    tail = find_last_used_block_index(disk_map)
+    if tail < 0:
+        return disk_map
     for index, block in enumerate(disk_map):
+        if tail <= index:
+            break
         if block != ".":
             continue
-        block_index = find_last_used_block_index(disk_map, index)
-        if not block_index:
-            break
-        disk_map[index] = disk_map[block_index]
-        disk_map[block_index] = "."
+        disk_map[index] = disk_map[tail]
+        disk_map[tail] = "."
+        tail = find_last_used_block_index(disk_map[:tail])
 
     return disk_map 
 
