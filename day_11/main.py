@@ -1,50 +1,36 @@
-def parse_input() -> list[str]:
+from collections import defaultdict
+
+def parse_input() -> dict[str, int]:
     with open("input.txt", "r") as file:
-        return file.read().split() 
+        stones = defaultdict(int)
+        for stone in file.read().split():
+            stones[stone] = 1
+        return stones
 
-def count_stones(stones: list[str]):
-    return len(stones)
-
-def transform_stone(stone: str) -> list[str]:
-    if stone == "0":
-       return ["1"] 
-    elif len(stone) % 2 == 0:
-        # split even length stones
-        fs = stone[:len(stone)//2].lstrip("0")
-        ss = stone[len(stone)//2:].lstrip("0")
-        # strip '0's from begining of stones
-        second_stone = ss if ss != "" else "0"
-        first_stone = fs if fs != "" else "0" 
-        return [first_stone, second_stone]
-    else:
-        return [str(int(stone) * 2024)] 
-
-def simulate_blinks(stones: list[str], num_blinks: int) -> list[str]:
-    for _ in range(num_blinks):
-
-        skip_iter = False
-        for index, stone in enumerate(stones):
-            # skip this iteration if its a newly inserted stone
-            if skip_iter:
-                skip_iter = False
-                continue
-            
-            # transform the state of the stone 
-            transformed_stone = transform_stone(stone)
-            if len(transformed_stone) == 2:
-                stones[index] = transformed_stone[0]
-                stones.insert(index+1, transformed_stone[1])
-                skip_iter = True
+def simulate_blinks(stones: dict[str, int], blinks: int):
+    for _ in range(blinks):
+        new_stones = defaultdict(int)
+        for stone, count in stones.items():
+            if stone == "0":
+                new_stones["1"] += count
+            elif len(stone) % 2 == 0:
+                new_stones[str(int(stone[:len(stone)//2]))] += count
+                new_stones[str(int(stone[len(stone)//2:]))] += count
             else:
-                stones[index] = transformed_stone[0]
-    return stones
+                new_stones[str(int(stone) * 2024)] += count
+        stones = new_stones
+    return sum(stones.values())
 
 def main() -> None:
-    stones = parse_input() 
-    transformed_stones = simulate_blinks(stones, 25)
-    stones_count = count_stones(transformed_stones)
-    print(stones_count)
+    # part one
+    stones_p1 = parse_input() 
+    t_stones_p1_count = simulate_blinks(stones_p1, 25)
+    print(t_stones_p1_count)
     
+    # part two
+    stones_p2 = parse_input()
+    t_stones_p2_count = simulate_blinks(stones_p2, 75)
+    print(t_stones_p2_count)
 
 if __name__ == "__main__":
     main()
