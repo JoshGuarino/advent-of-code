@@ -25,8 +25,7 @@ def find_last_used_block_index(disk_map: list[str]) -> int:
             return index
     return -1
 
-def compact_disk_map(decomp_disk_map: list[str]) -> list[str]:
-    disk_map = decomp_disk_map
+def compact_disk_map(disk_map: list[str]) -> list[str]:
     tail = find_last_used_block_index(disk_map)
     if tail < 0:
         return disk_map
@@ -41,6 +40,9 @@ def compact_disk_map(decomp_disk_map: list[str]) -> list[str]:
 
     return disk_map 
 
+def comp_disk_map_by_blocks(disk_map: list[str]) -> list[str]:
+    return disk_map
+
 def find_check_sum(disk_map: list[str]) -> int:
     check_sum = 0
     for index, block in enumerate(disk_map):
@@ -51,10 +53,19 @@ def find_check_sum(disk_map: list[str]) -> int:
 
 def main() -> None:
     disk_map = parse_input()
+    disk_map = "12345"
+    
+    # part one
     decomp_disk_map = decompresss_disk_map(disk_map)
     comp_disk_map = compact_disk_map(decomp_disk_map)
-    check_sum = find_check_sum(comp_disk_map)
-    print(check_sum)
+    check_sum_p1 = find_check_sum(comp_disk_map)
+    print(check_sum_p1)
+    
+    # part two
+    decomp_disk_map = decompresss_disk_map(disk_map)
+    comp_disk_map = comp_disk_map_by_blocks(decomp_disk_map)
+    check_sum_p2 = find_check_sum(comp_disk_map)
+    print(check_sum_p2)
 
 if __name__ == "__main__":
     main()

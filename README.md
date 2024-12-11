@@ -11,3 +11,4 @@
 - Day 8 : not started
 - Day 9 : part 1 done
 - Day 10 : not started
+- Day 11 : part 1 done
