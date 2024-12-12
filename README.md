@@ -12,3 +12,4 @@
 - Day 9 : part 1 done
 - Day 10 : not started
 - Day 11 : both parts done 
+- Day 12 : in progress
